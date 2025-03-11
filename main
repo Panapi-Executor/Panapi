@@ -40,6 +40,7 @@ local function DOORS()
 		ColorSequenceKeypoint.new(0.555, Color3.fromRGB(121, 64, 31)),
 		ColorSequenceKeypoint.new(1, Color3.fromRGB(121, 64, 31)),
 	}
+	Player:SetAttribute("CurrentRoom", 0)
 	
 	local HighSpeed = Instance.new("TextButton", MainFrame)
 	HighSpeed.Name = "HighSpeed"
@@ -58,6 +59,12 @@ local function DOORS()
 	DoorDisplay.Text = "Door Number Display: OFF"
 	DoorDisplay.Position = UDim2.new(0.609, 0,0.272, 0)
 	DoorDisplay.Size = UDim2.new(0.223, 0,0.131, 0)
+	
+	local Highlights = Instance.new("TextButton", MainFrame)
+	Highlights.Name = "Highlights"
+	Highlights.Text = "Boss Room Highlights: OFF"
+	Highlights.Position = UDim2.new(0.363, 0,0.421, 0)
+	Highlights.Size = UDim2.new(0.223, 0,0.131, 0)
 
 	for txt, buttons in MainFrame:GetChildren() do
 		if buttons:IsA("TextButton") then
@@ -87,9 +94,8 @@ local function DOORS()
 		Instance.new("TextLabel", DoorNumberDisplay).Name = "DupedRoom" DoorNumberDisplay:WaitForChild("DupedRoom").Text = "DUPED ROOM: FALSE" DoorNumberDisplay:WaitForChild("DupedRoom").Font = Enum.Font.SourceSansBold DoorNumberDisplay:WaitForChild("DupedRoom").BackgroundTransparency = 1 DoorNumberDisplay:WaitForChild("DupedRoom").TextScaled = true DoorNumberDisplay:WaitForChild("DupedRoom").TextColor3 = Color3.fromRGB(150, 0, 255) DoorNumberDisplay:WaitForChild("DupedRoom").Size = UDim2.new(1, 0,0.2, 0) DoorNumberDisplay:WaitForChild("DupedRoom").Position = UDim2.new(0.5, 0,0.777, 0) DoorNumberDisplay:WaitForChild("DupedRoom").AnchorPoint = Vector2.new(0.5, 0.5)
 	end)
 	
-	Player:SetAttribute("CurrentRoom", 0)
 	DoorNumberDisplay:WaitForChild("DoorNumber").Text = "CURRENT DOOR: " .. Player:GetAttribute("CurrentRoom")
-	if game:GetService("Workspace").CurrentRooms[Player:GetAttribute("CurrentRoom")]:FindFirstChild("SideroomDupe") then
+	if game:GetService("Workspace").CurrentRooms[tostring(Player:GetAttribute("CurrentRoom"))]:FindFirstChild("SideroomDupe") then
 		DoorNumberDisplay:WaitForChild("DupedRoom").Text = "DUPED ROOM: TRUE"
 	else
 		DoorNumberDisplay:WaitForChild("DupedRoom").Text = "DUPED ROOM: FALSE"
@@ -148,6 +154,16 @@ local function DOORS()
 		else
 			DoorDisplay.Text = "Door Number Display: OFF"
 			DoorNumberDisplay.Visible = false
+		end
+	end)
+	
+	Highlights.MouseButton1Click:Connect(function()
+		if Highlights.Text == "Boss Room Highlights: OFF" then
+			Highlights.Text = "Boss Room Highlights: ON"
+			Highlights.Visible = true
+		else
+			Highlights.Text = "Boss Room Highlights: OFF"
+			Highlights.Visible = false
 		end
 	end)
 	
@@ -226,10 +242,40 @@ local function DOORS()
 		if DoorDisplay.Text == "Door Number Display: OFF" then return end
 		
 		DoorNumberDisplay:WaitForChild("DoorNumber").Text = "CURRENT DOOR: "..tostring(Player:GetAttribute("CurrentRoom"))
-		if game:GetService("Workspace"):WaitForChild("CurrentRooms")[Player:GetAttribute("CurrentRoom")]:FindFirstChild("SideroomDupe") then
+		if game:GetService("Workspace"):WaitForChild("CurrentRooms")[tostring(Player:GetAttribute("CurrentRoom"))]:FindFirstChild("SideroomDupe") then
 			DoorNumberDisplay:WaitForChild("DupedRoom").Text = "DUPED ROOM: TRUE"
 		else
 			DoorNumberDisplay:WaitForChild("DupedRoom").Text = "DUPED ROOM: FALSE"
+		end
+	end)
+	
+	Highlights:GetPropertyChangedSignal("Text"):Connect(function()
+		local HT = Instance.new("Highlight", UI)
+		HT.Name = "BossRoomHighlight"
+		HT.FillColor = Color3.fromRGB(20, 140, 255)
+		HT.FillTransparency = 0
+		HT.OutlineColor = Color3.fromRGB(255, 255, 255)
+		HT.DepthMode = Enum.HighlightDepthMode.AlwaysOnTop
+		if Highlights.Text == "Boss Room Highlights: OFF" then
+			if game:GetService("ReplicatedStorage"):WaitForChild("GameData"):WaitForChild("Floor").Value == "Hotel" then
+				if Player:GetAttribute("CurrentRoom") == 50 then
+					for i, v in game:GetService("Workspace"):WaitForChild("CurrentRooms")["50"]:GetDescendants() do
+						if v.Name == "LiveHintBook" then
+							v:WaitForChild("BossRoomHighlight"):Destroy()
+						end
+					end
+				end
+			end
+		else
+			if game:GetService("ReplicatedStorage"):WaitForChild("GameData"):WaitForChild("Floor").Value == "Hotel" then
+				if Player:GetAttribute("CurrentRoom") == 50 then
+					for i, v in game:GetService("Workspace"):WaitForChild("CurrentRooms")["50"]:GetDescendants() do
+						if v.Name == "LiveHintBook" then
+							HT:Clone().Parent = v
+						end
+					end
+				end
+			end
 		end
 	end)
 
