@@ -106,8 +106,8 @@ local function DOORS()
 		EntityDetectionsFrame.BorderColor3 = Color3.fromRGB(0, 0, 0)
 		EntityDetectionsFrame.Visible = false
 		EntityDetectionsFrame.ZIndex = 3
-		Instance.new("UIStroke", EntityDetectionsFrame).Name = "Stroke" EntityDetectionsFrame:WaitForChild("Stroke").Thickness = 10 EntityDetectionsFrame:WaitForChild("Stroke").Color = Color3.fromRGB(255, 255, 255) EntityDetectionsFrame:WaitForChild("Stroke").ZIndex = 3
-		Instance.new("TextLabel", EntityDetectionsFrame).Name = "Title" EntityDetectionsFrame:WaitForChild("Title").Text = "ENTITY DETECTED!" EntityDetectionsFrame:WaitForChild("Title").Font = Enum.Font.SourceSansBold EntityDetectionsFrame:WaitForChild("Title").ZIndex = 3 EntityDetectionsFrame:WaitForChild("Title").TextScaled = true EntityDetectionsFrame:WaitForChild("Title").TextColor3 = Color3.fromRGB(255, 255, 255) EntityDetectionsFrame:WaitForChild("Title").BackgroundTransparency = 1 EntityDetectionsFrame:WaitForChild("Title").AnchorPoint = Vector2.new(0.5, 0.5) EntityDetectionsFrame:WaitForChild("Title").Position = UDim2.new(0.5, 0,0.365, 0) EntityDetectionsFrame:WaitForChild("Title").Size = UDim2.new(1, 0,0.396, 0) MainFrame:WaitForChild("Title"):WaitForChild("UIGradient"):Clone().Parent = EntityDetectionsFrame:WaitForChild("Title")
+		Instance.new("UIStroke", EntityDetectionsFrame).Name = "Stroke" EntityDetectionsFrame:WaitForChild("Stroke").Thickness = 10 EntityDetectionsFrame:WaitForChild("Stroke").Color = Color3.fromRGB(255, 255, 255) EntityDetectionsFrame:WaitForChild("Stroke")
+		Instance.new("TextLabel", EntityDetectionsFrame).Name = "Title" EntityDetectionsFrame:WaitForChild("Title").Text = "ENTITY DETECTED!" EntityDetectionsFrame:WaitForChild("Title").Font = Enum.Font.SourceSansBold EntityDetectionsFrame:WaitForChild("Title").ZIndex = 4 EntityDetectionsFrame:WaitForChild("Title").TextScaled = true EntityDetectionsFrame:WaitForChild("Title").TextColor3 = Color3.fromRGB(255, 255, 255) EntityDetectionsFrame:WaitForChild("Title").BackgroundTransparency = 1 EntityDetectionsFrame:WaitForChild("Title").AnchorPoint = Vector2.new(0.5, 0.5) EntityDetectionsFrame:WaitForChild("Title").Position = UDim2.new(0.5, 0,0.365, 0) EntityDetectionsFrame:WaitForChild("Title").Size = UDim2.new(1, 0,0.396, 0) MainFrame:WaitForChild("Title"):WaitForChild("UIGradient"):Clone().Parent = EntityDetectionsFrame:WaitForChild("Title")
 		Instance.new("TextLabel", EntityDetectionsFrame).Name = "EntityName"
 		EntityDetectionsFrame:WaitForChild("EntityName").AnchorPoint = Vector2.new(0.5, 0.5)
 		EntityDetectionsFrame:WaitForChild("EntityName").BackgroundTransparency = 1
@@ -117,6 +117,7 @@ local function DOORS()
 		EntityDetectionsFrame:WaitForChild("EntityName").Font = Enum.Font.SourceSansBold
 		EntityDetectionsFrame:WaitForChild("EntityName").TextColor3 = Color3.fromRGB(255, 255, 255)
 		EntityDetectionsFrame:WaitForChild("EntityName").TextScaled = true
+		EntityDetectionsFrame:WaitForChild("EntityName").ZIndex = 4
 		MainFrame:WaitForChild("Title"):WaitForChild("UIGradient"):Clone().Parent = EntityDetectionsFrame:WaitForChild("EntityName")
 		EntityDetectionsFrame:WaitForChild("EntityName"):WaitForChild("UIGradient").Rotation = -90
 	end)
