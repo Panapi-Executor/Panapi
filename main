@@ -87,7 +87,8 @@ local function DOORS()
 		Instance.new("TextLabel", DoorNumberDisplay).Name = "DupedRoom" DoorNumberDisplay:WaitForChild("DupedRoom").Text = "DUPED ROOM: FALSE" DoorNumberDisplay:WaitForChild("DupedRoom").Font = Enum.Font.SourceSansBold DoorNumberDisplay:WaitForChild("DupedRoom").BackgroundTransparency = 1 DoorNumberDisplay:WaitForChild("DupedRoom").TextScaled = true DoorNumberDisplay:WaitForChild("DupedRoom").TextColor3 = Color3.fromRGB(150, 0, 255) DoorNumberDisplay:WaitForChild("DupedRoom").Size = UDim2.new(1, 0,0.2, 0) DoorNumberDisplay:WaitForChild("DupedRoom").Position = UDim2.new(0.5, 0,0.777, 0) DoorNumberDisplay:WaitForChild("DupedRoom").AnchorPoint = Vector2.new(0.5, 0.5)
 	end)
 	
-	DoorNumberDisplay:WaitForChild("DoorNumber").Text = "CURRENT DOOR: ".. Player:GetAttribute("CurrentRoom")
+	Player:SetAttribute("CurrentRoom", 0)
+	DoorNumberDisplay:WaitForChild("DoorNumber").Text = "CURRENT DOOR: " .. Player:GetAttribute("CurrentRoom")
 	if game:GetService("Workspace").CurrentRooms[Player:GetAttribute("CurrentRoom")]:FindFirstChild("SideroomDupe") then
 		DoorNumberDisplay:WaitForChild("DupedRoom").Text = "DUPED ROOM: TRUE"
 	else
@@ -225,7 +226,7 @@ local function DOORS()
 		if DoorDisplay.Text == "Door Number Display: OFF" then return end
 		
 		DoorNumberDisplay:WaitForChild("DoorNumber").Text = "CURRENT DOOR: "..tostring(Player:GetAttribute("CurrentRoom"))
-		if game:GetService("Workspace").CurrentRooms[Player:GetAttribute("CurrentRoom")]:FindFirstChild("SideroomDupe") then
+		if game:GetService("Workspace"):WaitForChild("CurrentRooms")[Player:GetAttribute("CurrentRoom")]:FindFirstChild("SideroomDupe") then
 			DoorNumberDisplay:WaitForChild("DupedRoom").Text = "DUPED ROOM: TRUE"
 		else
 			DoorNumberDisplay:WaitForChild("DupedRoom").Text = "DUPED ROOM: FALSE"
