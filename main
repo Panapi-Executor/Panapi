@@ -142,8 +142,10 @@ local function DOORS()
 	DoorDisplay.MouseButton1Click:Connect(function()
 		if DoorDisplay.Text == "Door Number Display: OFF" then
 			DoorDisplay.Text = "Door Number Display: ON"
+			DoorNumberDisplay.Visible = true
 		else
 			DoorDisplay.Text = "Door Number Display: OFF"
+			DoorNumberDisplay.Visible = false
 		end
 	end)
 	
