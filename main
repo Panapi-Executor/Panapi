@@ -1,8 +1,13 @@
 local Player = game:GetService("Players").LocalPlayer
 
 local WorkingGames = {
-	DOORS = 6516141723,
+	DOORS = 2440500124,
+	ThisOne = 7320982916,
 }
+
+repeat task.wait() until game:IsLoaded()
+
+print(game.GameId)
 
 if game.GameId == WorkingGames.DOORS then
 	game:GetService("StarterGui"):SetCore("SendNotification", {
@@ -13,7 +18,15 @@ if game.GameId == WorkingGames.DOORS then
 		Button1 = "Okay!";
 	})
 	DOORS()
-	
+elseif game.GameId == WorkingGames.ThisOne then
+	game:GetService("StarterGui"):SetCore("SendNotification", {
+		Title = "PANAPI";
+		Text = "Successfully injected into Panapi Hub!";
+		Icon = "rbxassetid://12538878758";
+		Duration = 5;
+		Button1 = "Okay!";
+	})
+	ThisGame()
 else
 	game:GetService("StarterGui"):SetCore("SendNotification", {
 		Title = "PANAPI";
@@ -25,5 +38,9 @@ else
 end
 
 function DOORS()
-	print("this works!")
+	print("this works! doors")
+end
+
+function ThisGame()
+	print("this works! panapi executor hub")
 end
