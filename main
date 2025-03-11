@@ -5,9 +5,65 @@ local WorkingGames = {
 	ThisOne = 7320982916,
 }
 
-repeat task.wait() until game:IsLoaded()
+local function DOORS()
+	local UI = Instance.new("ScreenGui", Player.PlayerGui)
+	UI.Name = "PANAPI"
+	UI.IgnoreGuiInset = true
+	UI.ResetOnSpawn = false
 
-print(game.GameId)
+	local MainFrame = Instance.new("Frame", UI)
+	MainFrame.Name = "MainFrame"
+	MainFrame.Visible = true
+	MainFrame.AnchorPoint = Vector2.new(0.5, 0.5)
+	MainFrame.Size = UDim2.new(0.353, 0,0.353, 0)
+	MainFrame.Position = UDim2.new(0.815, 0,0.807, 0)
+	MainFrame.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+	Instance.new("UIStroke", MainFrame).Name = "Stroke"
+	MainFrame:WaitForChild("Stroke").Thickness = 10
+	MainFrame:WaitForChild("Stroke").Color = Color3.fromRGB(255, 255, 255)
+	
+	Instance.new("TextLabel", MainFrame).Name = "Title"
+	MainFrame:WaitForChild("Title").AnchorPoint = Vector2.new(0.5, 0.5)
+	MainFrame:WaitForChild("Title").BackgroundTransparency = 1
+	MainFrame:WaitForChild("Title").TextScaled = true
+	MainFrame:WaitForChild("Title").Text = "PANAPI [DOORS]"
+	MainFrame:WaitForChild("Title").TextTransparency = 0
+	MainFrame:WaitForChild("Title").Position = UDim2.new(0.46, 0,0.086, 0)
+	MainFrame:WaitForChild("Title").Size = UDim2.new(0.922, 0,0.176, 0)
+	MainFrame:WaitForChild("Title").Font = Enum.Font.SourceSansBold
+	MainFrame:WaitForChild("Title").TextColor3 = Color3.fromRGB(255, 255, 255)
+	Instance.new("UIGradient", MainFrame:WaitForChild("Title")).Name = "UIGradient"
+	MainFrame:WaitForChild("Title"):WaitForChild("UIGradient").Rotation = 90
+	MainFrame:WaitForChild("Title"):WaitForChild("UIGradient").Color = ColorSequence.new{
+		ColorSequenceKeypoint.new(0, Color3.fromRGB(121, 3, 255)),
+		ColorSequenceKeypoint.new(0.396, Color3.fromRGB(121, 3, 255)),
+		ColorSequenceKeypoint.new(0.555, Color3.fromRGB(121, 64, 31)),
+		ColorSequenceKeypoint.new(1, Color3.fromRGB(121, 64, 31)),
+	}
+	
+	local HighSpeed = Instance.new("TextButton", MainFrame)
+	HighSpeed.Name = "HighSpeed"
+	HighSpeed.Text = "High Speed: OFF"
+	HighSpeed.Position = UDim2.new(0.123, 0,0.272, 0)
+	HighSpeed.Size = UDim2.new(0.223, 0,0.131, 0)
+
+	for txt, buttons in MainFrame:GetChildren() do
+		if buttons:IsA("TextButton") then
+			buttons.AnchorPoint = Vector2.new(0.5, 0.5)
+			buttons.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+			buttons.Font = Enum.Font.SourceSansBold
+			buttons.TextScaled = true
+			buttons.TextColor3 = Color3.fromRGB(144, 0, 184)
+			buttons.BorderColor3 = Color3.fromRGB(0, 0, 0)
+		end
+	end
+	
+	HighSpeed.MouseButton1Click:Connect(function()
+		Player.Character:SetAttribute("SpeedBoost", 5)
+	end)
+end
+
+repeat task.wait() until game:IsLoaded()
 
 if game.GameId == WorkingGames.DOORS then
 	game:GetService("StarterGui"):SetCore("SendNotification", {
@@ -26,7 +82,7 @@ elseif game.GameId == WorkingGames.ThisOne then
 		Duration = 5;
 		Button1 = "Okay!";
 	})
-	ThisGame()
+	DOORS()
 else
 	game:GetService("StarterGui"):SetCore("SendNotification", {
 		Title = "PANAPI";
@@ -35,12 +91,4 @@ else
 		Duration = 5;
 		Button1 = "Okay!";
 	})
-end
-
-function DOORS()
-	print("this works! doors")
-end
-
-function ThisGame()
-	print("this works! panapi executor hub")
 end
