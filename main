@@ -1,0 +1,29 @@
+local Player = game:GetService("Players").LocalPlayer
+
+local WorkingGames = {
+	DOORS = 6516141723,
+}
+
+if game.GameId == WorkingGames.DOORS then
+	game:GetService("StarterGui"):SetCore("SendNotification", {
+		Title = "PANAPI";
+		Text = "Successfully injected into DOORS!";
+		Icon = "rbxassetid://12538878758";
+		Duration = 5;
+		Button1 = "Okay!";
+	})
+	DOORS()
+	
+else
+	game:GetService("StarterGui"):SetCore("SendNotification", {
+		Title = "PANAPI";
+		Text = "Unable to inject. Game is not on our whitelist.";
+		Icon = "rbxassetid://12538878758";
+		Duration = 5;
+		Button1 = "Okay!";
+	})
+end
+
+function DOORS()
+	print("this works!")
+end
