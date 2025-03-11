@@ -87,6 +87,13 @@ local function DOORS()
 		Instance.new("TextLabel", DoorNumberDisplay).Name = "DupedRoom" DoorNumberDisplay:WaitForChild("DupedRoom").Text = "DUPED ROOM: FALSE" DoorNumberDisplay:WaitForChild("DupedRoom").Font = Enum.Font.SourceSansBold DoorNumberDisplay:WaitForChild("DupedRoom").BackgroundTransparency = 1 DoorNumberDisplay:WaitForChild("DupedRoom").TextScaled = true DoorNumberDisplay:WaitForChild("DupedRoom").TextColor3 = Color3.fromRGB(150, 0, 255) DoorNumberDisplay:WaitForChild("DupedRoom").Size = UDim2.new(1, 0,0.2, 0) DoorNumberDisplay:WaitForChild("DupedRoom").Position = UDim2.new(0.5, 0,0.777, 0) DoorNumberDisplay:WaitForChild("DupedRoom").AnchorPoint = Vector2.new(0.5, 0.5)
 	end)
 	
+	DoorNumberDisplay:WaitForChild("DoorNumber").Text = "CURRENT DOOR: "..game:GetService("Workspace").CurrentRooms[Player:GetAttribute("CurrentRooms")]
+	if game:GetService("Workspace").CurrentRooms[Player:GetAttribute("CurrentRooms")]:FindFirstChild("SideroomDupe") then
+		DoorNumberDisplay:WaitForChild("DupedRoom").Text = "DUPED ROOM: TRUE"
+	else
+		DoorNumberDisplay:WaitForChild("DupedRoom").Text = "DUPED ROOM: FALSE"
+	end
+	
 	local EntityDetectionsFrame : Frame
 	
 	task.spawn(function()
@@ -99,8 +106,8 @@ local function DOORS()
 		EntityDetectionsFrame.BorderColor3 = Color3.fromRGB(0, 0, 0)
 		EntityDetectionsFrame.Visible = false
 		EntityDetectionsFrame.ZIndex = 3
-		Instance.new("UIStroke", EntityDetectionsFrame).Name = "Stroke" EntityDetectionsFrame:WaitForChild("Stroke").Thickness = 10 EntityDetectionsFrame:WaitForChild("Stroke").Color = Color3.fromRGB(255, 255, 255)
-		Instance.new("TextLabel", EntityDetectionsFrame).Name = "Title" EntityDetectionsFrame:WaitForChild("Title").Text = "ENTITY DETECTED!" EntityDetectionsFrame:WaitForChild("Title").Font = Enum.Font.SourceSansBold EntityDetectionsFrame:WaitForChild("Title").TextScaled = true EntityDetectionsFrame:WaitForChild("Title").TextColor3 = Color3.fromRGB(255, 255, 255) EntityDetectionsFrame:WaitForChild("Title").BackgroundTransparency = 1 EntityDetectionsFrame:WaitForChild("Title").AnchorPoint = Vector2.new(0.5, 0.5) EntityDetectionsFrame:WaitForChild("Title").Position = UDim2.new(0.5, 0,0.365, 0) EntityDetectionsFrame:WaitForChild("Title").Size = UDim2.new(1, 0,0.396, 0) MainFrame:WaitForChild("Title"):WaitForChild("UIGradient"):Clone().Parent = EntityDetectionsFrame:WaitForChild("Title")
+		Instance.new("UIStroke", EntityDetectionsFrame).Name = "Stroke" EntityDetectionsFrame:WaitForChild("Stroke").Thickness = 10 EntityDetectionsFrame:WaitForChild("Stroke").Color = Color3.fromRGB(255, 255, 255) EntityDetectionsFrame:WaitForChild("Stroke").ZIndex = 3
+		Instance.new("TextLabel", EntityDetectionsFrame).Name = "Title" EntityDetectionsFrame:WaitForChild("Title").Text = "ENTITY DETECTED!" EntityDetectionsFrame:WaitForChild("Title").Font = Enum.Font.SourceSansBold EntityDetectionsFrame:WaitForChild("Title").ZIndex = 3 EntityDetectionsFrame:WaitForChild("Title").TextScaled = true EntityDetectionsFrame:WaitForChild("Title").TextColor3 = Color3.fromRGB(255, 255, 255) EntityDetectionsFrame:WaitForChild("Title").BackgroundTransparency = 1 EntityDetectionsFrame:WaitForChild("Title").AnchorPoint = Vector2.new(0.5, 0.5) EntityDetectionsFrame:WaitForChild("Title").Position = UDim2.new(0.5, 0,0.365, 0) EntityDetectionsFrame:WaitForChild("Title").Size = UDim2.new(1, 0,0.396, 0) MainFrame:WaitForChild("Title"):WaitForChild("UIGradient"):Clone().Parent = EntityDetectionsFrame:WaitForChild("Title")
 		Instance.new("TextLabel", EntityDetectionsFrame).Name = "EntityName"
 		EntityDetectionsFrame:WaitForChild("EntityName").AnchorPoint = Vector2.new(0.5, 0.5)
 		EntityDetectionsFrame:WaitForChild("EntityName").BackgroundTransparency = 1
@@ -143,64 +150,67 @@ local function DOORS()
 	game:GetService("Workspace").ChildAdded:Connect(function(Child)
 		if EntityDetections.Text == "Entity Detections: OFF" then return end
 		
-		if Child:IsA("Model") then
+		if Child.Name == "RushMoving" then
 			EntityDetectionsFrame.Visible = true
-			if Child.Name == "RushMoving" then
-				EntityDetectionsFrame:WaitForChild("EntityName").Text = "Name: Rush"
-				task.wait(5)
+			EntityDetectionsFrame:WaitForChild("EntityName").Text = "Name: Rush"
+			task.wait(5)
+			EntityDetectionsFrame.Visible = false
+		elseif Child.Name == "AmbushMoving" then
+			EntityDetectionsFrame.Visible = true
+			EntityDetectionsFrame:WaitForChild("EntityName").Text = "Name: Ambush"
+			Child.Destroying:Connect(function()
+				EntityDetectionsFrame:WaitForChild("EntityName").Text = "Ambush has left."
+				task.wait(3.5)
 				EntityDetectionsFrame.Visible = false
-			elseif Child.Name == "AmbushMoving" then
-				EntityDetectionsFrame:WaitForChild("EntityName").Text = "Name: Ambush"
-				Child.Destroying:Connect(function()
-					EntityDetectionsFrame:WaitForChild("EntityName").Text = "Ambush has left."
-					task.wait(3.5)
-					EntityDetectionsFrame.Visible = false
-					EntityDetectionsFrame:WaitForChild("EntityName").Text = "Name: [N/A]"
-				end)
-			elseif Child.Name == "A60" then
-				EntityDetectionsFrame:WaitForChild("EntityName").Text = "Name: A-60"
-				task.wait(5)
+				EntityDetectionsFrame:WaitForChild("EntityName").Text = "Name: [N/A]"
+			end)
+		elseif Child.Name == "A60" then
+			EntityDetectionsFrame.Visible = true
+			EntityDetectionsFrame:WaitForChild("EntityName").Text = "Name: A-60"
+			task.wait(5)
+			EntityDetectionsFrame.Visible = false
+		elseif Child.Name == "A120" then
+			EntityDetectionsFrame.Visible = true
+			EntityDetectionsFrame:WaitForChild("EntityName").Text = "Name: A-120"
+			Child.Destroying:Connect(function()
+				EntityDetectionsFrame:WaitForChild("EntityName").Text = "A-120 has left."
+				task.wait(3.5)
 				EntityDetectionsFrame.Visible = false
-			elseif Child.Name == "A120" then
-				EntityDetectionsFrame:WaitForChild("EntityName").Text = "Name: A-120"
-				Child.Destroying:Connect(function()
-					EntityDetectionsFrame:WaitForChild("EntityName").Text = "A-120 has left."
-					task.wait(3.5)
-					EntityDetectionsFrame.Visible = false
-					EntityDetectionsFrame:WaitForChild("EntityName").Text = "Name: [N/A]"
-				end)
-			elseif Child.Name == "BackdoorRush" then
-				EntityDetectionsFrame:WaitForChild("EntityName").Text = "Name: Blitz"
-				task.wait(5)
-				EntityDetectionsFrame.Visible = false
-			elseif Child.Name == "CustomEntity" then
-				EntityDetectionsFrame:WaitForChild("EntityName").Text = "Name: Custom Entity"
-				task.wait(5)
-				EntityDetectionsFrame.Visible = false
-			elseif Child.Name == "BackdoorLookman" then
-				EntityDetectionsFrame:WaitForChild("EntityName").Text = "Name: Lookman"
-				task.wait(5)
-				EntityDetectionsFrame.Visible = false
-			elseif Child.Name == "Eyes" then
-				EntityDetectionsFrame:WaitForChild("EntityName").Text = "Name: Eyes"
-				task.wait(5)
-				EntityDetectionsFrame.Visible = false
-			elseif Child.Name == "JeffTheKiller" then
-				EntityDetectionsFrame:WaitForChild("EntityName").Text = "Jeff The Killer is on the next door!"
-				task.wait(5)
-				EntityDetectionsFrame.Visible = false
-			else
-				EntityDetectionsFrame.Visible = false
-			end
+				EntityDetectionsFrame:WaitForChild("EntityName").Text = "Name: [N/A]"
+			end)
+		elseif Child.Name == "BackdoorRush" then
+			EntityDetectionsFrame.Visible = true
+			EntityDetectionsFrame:WaitForChild("EntityName").Text = "Name: Blitz"
+			task.wait(5)
+			EntityDetectionsFrame.Visible = false
+		elseif Child.Name == "CustomEntity" then
+			EntityDetectionsFrame.Visible = true
+			EntityDetectionsFrame:WaitForChild("EntityName").Text = "Name: Custom Entity"
+			task.wait(5)
+			EntityDetectionsFrame.Visible = false
+		elseif Child.Name == "BackdoorLookman" then
+			EntityDetectionsFrame.Visible = true
+			EntityDetectionsFrame:WaitForChild("EntityName").Text = "Name: Lookman"
+			task.wait(5)
+			EntityDetectionsFrame.Visible = false
+		elseif Child.Name == "Eyes" then
+			EntityDetectionsFrame.Visible = true
+			EntityDetectionsFrame:WaitForChild("EntityName").Text = "Name: Eyes"
+			task.wait(5)
+			EntityDetectionsFrame.Visible = false
+		elseif Child.Name == "JeffTheKiller" then
+			EntityDetectionsFrame.Visible = true
+			EntityDetectionsFrame:WaitForChild("EntityName").Text = "Jeff The Killer is on the next door!"
+			task.wait(5)
+			EntityDetectionsFrame.Visible = false
 		end
 	end)
 	
 	game:GetService("Workspace"):WaitForChild("Camera").ChildAdded:Connect(function(Child)
 		if EntityDetections.Text == "Entity Detections: OFF" then return end
-		
-		EntityDetectionsFrame.Visible = true
-		
+
 		if Child.Name == "Screech" then
+			EntityDetectionsFrame.Visible = true
 			EntityDetectionsFrame:WaitForChild("EntityName").Text = "Name: Screech"
 			task.wait(5)
 			EntityDetectionsFrame.Visible = false
