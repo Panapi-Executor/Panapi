@@ -46,6 +46,18 @@ local function DOORS()
 	HighSpeed.Text = "High Speed: OFF"
 	HighSpeed.Position = UDim2.new(0.123, 0,0.272, 0)
 	HighSpeed.Size = UDim2.new(0.223, 0,0.131, 0)
+	
+	local EntityDetections = Instance.new("TextButton", MainFrame)
+	EntityDetections.Name = "EntityDetections"
+	EntityDetections.Text = "Entity Detections: OFF"
+	EntityDetections.Position = UDim2.new(0.363, 0,0.272, 0)
+	EntityDetections.Size = UDim2.new(0.223, 0,0.131, 0)
+	
+	local DoorDisplay = Instance.new("TextButton", MainFrame)
+	DoorDisplay.Name = "DoorDisplay"
+	DoorDisplay.Text = "Door Number Display: OFF"
+	DoorDisplay.Position = UDim2.new(0.609, 0,0.272, 0)
+	DoorDisplay.Size = UDim2.new(0.223, 0,0.131, 0)
 
 	for txt, buttons in MainFrame:GetChildren() do
 		if buttons:IsA("TextButton") then
@@ -58,9 +70,155 @@ local function DOORS()
 		end
 	end
 	
-	HighSpeed.MouseButton1Click:Connect(function()
-		Player.Character:SetAttribute("SpeedBoost", 5)
+	local DoorNumberDisplay : Frame
+	
+	task.spawn(function()
+		DoorNumberDisplay = Instance.new("Frame", UI)
+		DoorNumberDisplay.Name = "DoorNumberDisplay"
+		DoorNumberDisplay.Position = UDim2.new(0.904, 0,0.118, 0)
+		DoorNumberDisplay.Size = UDim2.new(0.179, 0,0.171, 0)
+		DoorNumberDisplay.AnchorPoint = Vector2.new(0.5, 0.5)
+		DoorNumberDisplay.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+		DoorNumberDisplay.BorderColor3 = Color3.fromRGB(0, 0, 0)
+		DoorNumberDisplay.Visible = false
+		DoorNumberDisplay.ZIndex = 1
+		Instance.new("UIStroke", DoorNumberDisplay).Name = "Stroke" DoorNumberDisplay:WaitForChild("Stroke").Thickness = 10 DoorNumberDisplay:WaitForChild("Stroke").Color = Color3.fromRGB(255, 255, 255)
+		Instance.new("TextLabel", DoorNumberDisplay).Name = "DoorNumber" DoorNumberDisplay:WaitForChild("DoorNumber").Text = "CURRENT DOOR: 0" DoorNumberDisplay:WaitForChild("DoorNumber").AnchorPoint = Vector2.new(0.5, 0.5) DoorNumberDisplay:WaitForChild("DoorNumber").Position = UDim2.new(0.5, 0,0.365, 0) DoorNumberDisplay:WaitForChild("DoorNumber").Size = UDim2.new(1, 0,0.396, 0) DoorNumberDisplay:WaitForChild("DoorNumber").TextColor3 = Color3.fromRGB(150, 0, 255) DoorNumberDisplay:WaitForChild("DoorNumber").TextScaled = true DoorNumberDisplay:WaitForChild("DoorNumber").Font = Enum.Font.SourceSansBold DoorNumberDisplay:WaitForChild("DoorNumber").BackgroundTransparency = 1
+		Instance.new("TextLabel", DoorNumberDisplay).Name = "DupedRoom" DoorNumberDisplay:WaitForChild("DupedRoom").Text = "DUPED ROOM: FALSE" DoorNumberDisplay:WaitForChild("DupedRoom").Font = Enum.Font.SourceSansBold DoorNumberDisplay:WaitForChild("DupedRoom").BackgroundTransparency = 1 DoorNumberDisplay:WaitForChild("DupedRoom").TextScaled = true DoorNumberDisplay:WaitForChild("DupedRoom").TextColor3 = Color3.fromRGB(150, 0, 255) DoorNumberDisplay:WaitForChild("DupedRoom").Size = UDim2.new(1, 0,0.2, 0) DoorNumberDisplay:WaitForChild("DupedRoom").Position = UDim2.new(0.5, 0,0.777, 0) DoorNumberDisplay:WaitForChild("DupedRoom").AnchorPoint = Vector2.new(0.5, 0.5)
 	end)
+	
+	local EntityDetectionsFrame : Frame
+	
+	task.spawn(function()
+		EntityDetectionsFrame = Instance.new("Frame", UI)
+		EntityDetectionsFrame.Name = "EntityDetectionsFrame"
+		EntityDetectionsFrame.Position = UDim2.new(0.904, 0,0.118, 0)
+		EntityDetectionsFrame.Size = UDim2.new(0.179, 0,0.171, 0)
+		EntityDetectionsFrame.AnchorPoint = Vector2.new(0.5, 0.5)
+		EntityDetectionsFrame.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+		EntityDetectionsFrame.BorderColor3 = Color3.fromRGB(0, 0, 0)
+		EntityDetectionsFrame.Visible = false
+		EntityDetectionsFrame.ZIndex = 3
+		Instance.new("UIStroke", EntityDetectionsFrame).Name = "Stroke" EntityDetectionsFrame:WaitForChild("Stroke").Thickness = 10 EntityDetectionsFrame:WaitForChild("Stroke").Color = Color3.fromRGB(255, 255, 255)
+		Instance.new("TextLabel", EntityDetectionsFrame).Name = "Title" EntityDetectionsFrame:WaitForChild("Title").Text = "ENTITY DETECTED!" EntityDetectionsFrame:WaitForChild("Title").Font = Enum.Font.SourceSansBold EntityDetectionsFrame:WaitForChild("Title").TextScaled = true EntityDetectionsFrame:WaitForChild("Title").TextColor3 = Color3.fromRGB(255, 255, 255) EntityDetectionsFrame:WaitForChild("Title").BackgroundTransparency = 1 EntityDetectionsFrame:WaitForChild("Title").AnchorPoint = Vector2.new(0.5, 0.5) EntityDetectionsFrame:WaitForChild("Title").Position = UDim2.new(0.5, 0,0.365, 0) EntityDetectionsFrame:WaitForChild("Title").Size = UDim2.new(1, 0,0.396, 0) MainFrame:WaitForChild("Title"):WaitForChild("UIGradient"):Clone().Parent = EntityDetectionsFrame:WaitForChild("Title")
+		Instance.new("TextLabel", EntityDetectionsFrame).Name = "EntityName"
+		EntityDetectionsFrame:WaitForChild("EntityName").AnchorPoint = Vector2.new(0.5, 0.5)
+		EntityDetectionsFrame:WaitForChild("EntityName").BackgroundTransparency = 1
+		EntityDetectionsFrame:WaitForChild("EntityName").Text = "Name: [N/A]"
+		EntityDetectionsFrame:WaitForChild("EntityName").Position = UDim2.new(0.5, 0,0.777, 0)
+		EntityDetectionsFrame:WaitForChild("EntityName").Size = UDim2.new(1, 0,0.2, 0)
+		EntityDetectionsFrame:WaitForChild("EntityName").Font = Enum.Font.SourceSansBold
+		EntityDetectionsFrame:WaitForChild("EntityName").TextColor3 = Color3.fromRGB(255, 255, 255)
+		EntityDetectionsFrame:WaitForChild("EntityName").TextScaled = true
+		MainFrame:WaitForChild("Title"):WaitForChild("UIGradient"):Clone().Parent = EntityDetectionsFrame:WaitForChild("EntityName")
+		EntityDetectionsFrame:WaitForChild("EntityName"):WaitForChild("UIGradient").Rotation = -90
+	end)
+	
+	HighSpeed.MouseButton1Click:Connect(function()
+		if HighSpeed.Text == "High Speed: OFF" then
+			HighSpeed.Text = "High Speed: ON"
+			Player.Character:SetAttribute("SpeedBoost", 5)
+		else
+			HighSpeed.Text = "High Speed: OFF"
+			Player.Character:SetAttribute("SpeedBoost", 0)
+		end
+	end)
+	
+	EntityDetections.MouseButton1Click:Connect(function()
+		if EntityDetections.Text == "Entity Detections: OFF" then
+			EntityDetections.Text = "Entity Detections: ON"
+		else
+			EntityDetections.Text = "Entity Detections: OFF"
+		end
+	end)
+	
+	DoorDisplay.MouseButton1Click:Connect(function()
+		if DoorDisplay.Text == "Door Number Display: OFF" then
+			DoorDisplay.Text = "Door Number Display: ON"
+		else
+			DoorDisplay.Text = "Door Number Display: OFF"
+		end
+	end)
+	
+	game:GetService("Workspace").ChildAdded:Connect(function(Child)
+		if EntityDetections.Text == "Entity Detections: OFF" then return end
+		
+		if Child:IsA("Model") then
+			EntityDetectionsFrame.Visible = true
+			if Child.Name == "RushMoving" then
+				EntityDetectionsFrame:WaitForChild("EntityName").Text = "Name: Rush"
+				task.wait(5)
+				EntityDetectionsFrame.Visible = false
+			elseif Child.Name == "AmbushMoving" then
+				EntityDetectionsFrame:WaitForChild("EntityName").Text = "Name: Ambush"
+				Child.Destroying:Connect(function()
+					EntityDetectionsFrame:WaitForChild("EntityName").Text = "Ambush has left."
+					task.wait(3.5)
+					EntityDetectionsFrame.Visible = false
+					EntityDetectionsFrame:WaitForChild("EntityName").Text = "Name: [N/A]"
+				end)
+			elseif Child.Name == "A60" then
+				EntityDetectionsFrame:WaitForChild("EntityName").Text = "Name: A-60"
+				task.wait(5)
+				EntityDetectionsFrame.Visible = false
+			elseif Child.Name == "A120" then
+				EntityDetectionsFrame:WaitForChild("EntityName").Text = "Name: A-120"
+				Child.Destroying:Connect(function()
+					EntityDetectionsFrame:WaitForChild("EntityName").Text = "A-120 has left."
+					task.wait(3.5)
+					EntityDetectionsFrame.Visible = false
+					EntityDetectionsFrame:WaitForChild("EntityName").Text = "Name: [N/A]"
+				end)
+			elseif Child.Name == "BackdoorRush" then
+				EntityDetectionsFrame:WaitForChild("EntityName").Text = "Name: Blitz"
+				task.wait(5)
+				EntityDetectionsFrame.Visible = false
+			elseif Child.Name == "CustomEntity" then
+				EntityDetectionsFrame:WaitForChild("EntityName").Text = "Name: Custom Entity"
+				task.wait(5)
+				EntityDetectionsFrame.Visible = false
+			elseif Child.Name == "BackdoorLookman" then
+				EntityDetectionsFrame:WaitForChild("EntityName").Text = "Name: Lookman"
+				task.wait(5)
+				EntityDetectionsFrame.Visible = false
+			elseif Child.Name == "Eyes" then
+				EntityDetectionsFrame:WaitForChild("EntityName").Text = "Name: Eyes"
+				task.wait(5)
+				EntityDetectionsFrame.Visible = false
+			elseif Child.Name == "JeffTheKiller" then
+				EntityDetectionsFrame:WaitForChild("EntityName").Text = "Jeff The Killer is on the next door!"
+				task.wait(5)
+				EntityDetectionsFrame.Visible = false
+			else
+				EntityDetectionsFrame.Visible = false
+			end
+		end
+	end)
+	
+	game:GetService("Workspace"):WaitForChild("Camera").ChildAdded:Connect(function(Child)
+		if EntityDetections.Text == "Entity Detections: OFF" then return end
+		
+		EntityDetectionsFrame.Visible = true
+		
+		if Child.Name == "Screech" then
+			EntityDetectionsFrame:WaitForChild("EntityName").Text = "Name: Screech"
+			task.wait(5)
+			EntityDetectionsFrame.Visible = false
+		end
+		
+	end)
+	
+	Player:GetAttributeChangedSignal("CurrentRoom"):Connect(function()
+		if DoorDisplay.Text == "Door Number Display: OFF" then return end
+		
+		DoorNumberDisplay:WaitForChild("DoorNumber").Text = "CURRENT DOOR: "..game:GetService("Workspace").CurrentRooms[Player:GetAttribute("CurrentRooms")]
+		if game:GetService("Workspace").CurrentRooms[Player:GetAttribute("CurrentRooms")]:FindFirstChild("SideroomDupe") then
+			DoorNumberDisplay:WaitForChild("DupedRoom").Text = "DUPED ROOM: TRUE"
+		else
+			DoorNumberDisplay:WaitForChild("DupedRoom").Text = "DUPED ROOM: FALSE"
+		end
+	end)
+
 end
 
 repeat task.wait() until game:IsLoaded()
